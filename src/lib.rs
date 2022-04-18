@@ -1,5 +1,5 @@
 pub fn wrap_lines(lines: &str, limit: usize) -> String {
-    String::new()
+    lines.to_string()
 }
 
 #[cfg(test)]
