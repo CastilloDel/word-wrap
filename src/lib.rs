@@ -3,15 +3,9 @@ pub fn wrap_lines(lines: &str, limit: usize) -> String {
         return lines.to_string();
     }
     let space_before_limit = lines[0..limit].rfind(" ");
-    let (break_index, next_start) = match space_before_limit {
-        Some(val) => (val, val + 1),
-        None => (limit, limit),
-    };
-    format!(
-        "{}\n{}",
-        &lines[0..break_index],
-        &wrap_lines(&lines[next_start..], limit),
-    )
+    let line = &lines[0..(space_before_limit.unwrap_or(limit))];
+    let rest = &lines[space_before_limit.map(|val| val + 1).unwrap_or(limit)..];
+    format!("{}\n{}", line, &wrap_lines(rest, limit),)
 }
 
 #[cfg(test)]
