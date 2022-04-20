@@ -1,4 +1,12 @@
 pub fn wrap_lines(lines: &str, limit: usize) -> String {
+    lines
+        .split("\n")
+        .map(|line| wrap_line(line, limit))
+        .reduce(|a, b| format!("{a}\n{b}"))
+        .unwrap()
+}
+
+fn wrap_line(lines: &str, limit: usize) -> String {
     if lines.len() <= limit {
         return lines.to_string();
     }
@@ -14,9 +22,9 @@ mod tests {
     use super::*;
 
     #[test]
-    fn should_not_change_a_lines_if_it_is_not_larger_than_the_limit() {
+    fn should_not_change_a_line_if_it_is_not_larger_than_the_limit() {
         assert_eq!("", wrap_lines("", 10));
-        assert_eq!("123", wrap_lines("123", 3));
+        assert_eq!("1234\n56", wrap_lines("1234\n56", 6));
     }
 
     #[test]
