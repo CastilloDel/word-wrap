@@ -10,15 +10,15 @@ fn wrap_line(line: &str, limit: usize) -> String {
     if line.len() <= limit {
         return line.to_string();
     }
-    let space_before_limit = line[0..limit].rfind(" ");
-    let first_slice = &line[0..(space_before_limit.unwrap_or(limit))];
-    let rest = &line[space_before_limit.map(|val| val + 1).unwrap_or(limit)..];
+    let break_index = line[0..limit].rfind(" ").unwrap_or(limit);
+    let first_slice = &line[0..break_index];
+    let rest = line[break_index..].trim();
 
-    format!("{}\n{}", first_slice, &wrap_lines(rest.trim(), limit),)
+    format!("{}\n{}", first_slice, &wrap_lines(rest, limit),)
 }
 
 #[cfg(test)]
-mod tests {
+mod word_wrap {
     use super::*;
 
     #[test]
